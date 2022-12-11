@@ -10,6 +10,7 @@ class LogHelper{
     public function getAction($path, $type = '', $page = 1)
     {
         $this->log->setPage($page);
+        
         switch ($type) {
             case 'first':
                 return $this->log->rewind($path);

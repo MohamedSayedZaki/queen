@@ -168,10 +168,6 @@ class LogActions{
         if (!$file->getSize()){
             throw new RuntimeException("File Empty","302");
         }         
-        
-        if(!$file->valid()){
-            throw new RuntimeException("End of file","303");
-        }
 
         return $file;
     }

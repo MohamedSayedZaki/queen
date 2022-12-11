@@ -19,8 +19,15 @@ class HomeController extends AbstractController
     #[Route('/login', name: 'app_login')]
     public function login(Request $request): Response
     {
-        $username = $request->request->get('username');
-        $password = $request->request->get('password');
+        $username = filter_var($request->request->get('username'), FILTER_SANITIZE_STRING);
+        if(!$username){
+            return new JsonResponse(['status' => 205, 'message' => 'Enter Valid credentials']);
+        }
+
+        $password = filter_var($request->request->get('password'), FILTER_SANITIZE_STRING);
+        if(!$password){
+            return new JsonResponse(['status' => 205, 'message' => 'Enter Valid credentials']);
+        }        
 
         if($username === 'admin' && $password === 'admin'){
             return new JsonResponse(['status' => 200, 'message' => 'Your login is successfull']);
