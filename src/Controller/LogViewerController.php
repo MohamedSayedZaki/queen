@@ -27,14 +27,14 @@ class LogViewerController extends AbstractController
 
             $path = filter_var($path, FILTER_SANITIZE_SPECIAL_CHARS);
             if(!$path){
-                throw new RuntimeException("Path Not Valid",'301');
+                throw new RuntimeException("Path Not Valid",301);
             }
             
             $type = $request->request->get('type')??'default';
 
             $type = filter_var($type, FILTER_SANITIZE_SPECIAL_CHARS);
             if(!$type){
-                throw new RuntimeException("Type Not Valid",'301');
+                throw new RuntimeException("Type Not Valid",301);
             }
             
             $page = $request->request->get('page')??1;            

@@ -160,13 +160,13 @@ class LogActions{
     private function isFileValid($path):SplFileObject
     {
         if(!file_exists($path)){
-            throw new RuntimeException("File Not exist",'301');
+            throw new RuntimeException("File Not exist",301);
         }
 
         $file = new SplFileObject($path);
 
         if (!$file->getSize()){
-            throw new RuntimeException("File Empty","302");
+            throw new RuntimeException("File Empty",302);
         }         
 
         return $file;
