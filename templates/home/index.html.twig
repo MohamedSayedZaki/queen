@@ -1,0 +1,154 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block body %}
+<style>
+    .content{
+        margin-top:100px;
+        margin-bottom:100px;
+    }
+    .log-result{
+        border:1px solid #eee;
+    }
+    .full-width{
+        width:100%;
+    }
+    .log-result, .log-result-buttons{
+        display:none;
+    }
+</style>
+<div class="container content">
+  <h2>Log File Viewer</h2>
+  <form  class="form-horizontal">
+    <div class="form-group">
+        <div class="col-md-8">
+            <input type="text" class="form-control" id="search" placeholder="/path/to/file" name="search">
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-default view-button full-width">View</button>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-10">
+            <div class="log-result" data-page=""></div>
+        </div>
+    </div>          
+  </form>
+    <div class="form-group log-result-buttons">
+        <div class="col-md-3">
+            <button class="btn btn-default button full-width" data-target="first"> |< </button>
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-default button full-width" data-target="previous"> < </button>
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-default button full-width" data-target="next"> > </button>
+        </div>
+        <div class="col-md-3">
+            <button class="btn btn-default button full-width" data-target="end"> >| </button>
+        </div>
+    </div>
+</div>
+<script>
+$(document).ready(function(){
+    <!-- view button start -->
+    $('.view-button').on('click',function(){
+        var search = $("#search").val();
+        if(search === ''){
+            alert("Please add at least a file path");        
+            return false;
+        }
+
+        if($('.log-result').children()){
+            $('.log-result').children().remove();
+        }
+
+        $.post("/log",{path: search},
+            function(data, status){
+                var obj = JSON.parse(JSON.stringify(data));
+
+                if(obj.status && obj.status === 301 || obj.status === 302 || obj.status === 303){
+                    alert(obj.message);
+                    exit;
+                }
+
+                if(obj.status === 200){
+                    $('.log-result').attr('data-page', obj.page);
+                }
+                
+                $('.log-result').css('display','block');
+                $('.log-result-buttons').css('display','block');
+
+                var append = '<table>';
+                $.each(obj, function(i, val){
+                    if(i !== 'status' && i !== 'page'){
+                        append += "<tr style='padding:20px;'>\
+                                        <td style='background-color:#cefdfe;padding:20px;'>"+ val.line + "</td>\
+                                        <td style='padding-left:20px;'>" + val.path +"</td>\
+                                    </tr>";
+                    }
+                });
+                append += '</table>';
+                $('.log-result').append(append);
+            }
+        );
+        return false;
+    });
+    <!-- view button end -->
+
+    <!-- button actions start -->
+    $(document).on('click','.button',function(e){
+        e.preventDefault();
+        var search = $("#search").val();
+        if(search === ''){
+            alert("Please add at least a file path");        
+            return false;
+        }
+
+        var page = $('.log-result').attr('data-page');
+        var type = $(this).data('target');
+
+        if(page === 0){
+            page = 1;
+        }
+        $.post("/getAction",{ path : search, page : page, type : type},
+            function(data, status){
+
+                if($('.log-result').children()){
+                    $('.log-result').children().remove();
+                }
+
+                var obj = JSON.parse(JSON.stringify(data));
+
+                if(obj.status && obj.status === 301 || obj.status === 302 || obj.status === 303){
+                    alert(obj.message);
+                    exit;
+                }
+
+                if(obj.status === 200){
+                    $('.log-result').attr('data-page', obj.page);
+                }
+                
+                $('.log-result').css('display','block');
+                $('.log-result-buttons').css('display','block');
+
+                var append = '<table>';
+                $.each(obj, function(i, val){
+                    if(i !== 'status' && i !== 'page'){
+                        append += "<tr style='padding:20px;'>\
+                                        <td style='background-color:#cefdfe;padding:20px;'>"+ val.line + "</td>\
+                                        <td style='padding-left:20px;'>" + val.path +"</td>\
+                                    </tr>";
+                    }
+                });
+                append += '</table>';
+                $('.log-result').append(append);
+            }
+        );
+        return false;
+    });
+    <!-- button actions end -->
+});
+</script>
+{% endblock %}
