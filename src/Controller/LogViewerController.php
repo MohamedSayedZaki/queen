@@ -15,10 +15,7 @@ class LogViewerController extends AbstractController
     #[Route('/log', name: 'app_log_viewer')]
     public function index(Request $request, LogHelper $logHelper): Response
     {
-        $path = $request->request->get('path');
-
-        $response = $logHelper->getAction($path, '', 1);
-        return new JsonResponse($response);      
+        return $this->render('log_viewer/index.html.twig');
     }
 
     #[Route('/getAction', name: 'app_log_action')]

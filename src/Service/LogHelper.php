@@ -7,12 +7,12 @@ class LogHelper{
         $this->log = $log;
     }
 
-    public function getAction($path, $type, $page)
+    public function getAction($path, $type = '', $page = 1)
     {
         $this->log->setPage($page);
         switch ($type) {
             case 'first':
-                return $this->log->rewind();
+                return $this->log->rewind($path);
                 break;
             case 'previous':
                 return $this->log->previous($path);
