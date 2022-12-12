@@ -12,20 +12,25 @@ class LogActions{
     private $page = 1;
     private $offset = 0;
     private $limit = 10;
+    private $path ='';
 
     public function setPage($page){
         $this->page = $page;
     }
+
+    public function setPath($path){
+        $this->path = $path;
+    }    
 
     /**
      * Load logs from file 
      * @param $path
      * @return array
     */
-    public function getLogs($path):array
+    public function getLogs():array
     {
         try{
-            $file = $this->isFileValid($path);
+            $file = $this->isFileValid();
 
             $file->setFlags(SplFileObject::READ_AHEAD);
             $fileIterator = new \LimitIterator($file, $this->offset, $this->limit);
@@ -47,10 +52,10 @@ class LogActions{
      * @param $path
      * @return array
     */
-    public function rewind($path):array
+    public function rewind():array
     {
         try{
-            $file = $this->isFileValid($path);
+            $file = $this->isFileValid();
             $this->page = 0;
 
             $this->offset = $this->page * $this->limit;
@@ -73,10 +78,10 @@ class LogActions{
      * @param $path
      * @return array
     */    
-    public function next($path):array
+    public function next():array
     {
         try{
-            $file = $this->isFileValid($path);
+            $file = $this->isFileValid();
             $file->seek(PHP_INT_MAX); 
             $total_lines = $file->key();
             $this->page = ($total_lines > ($this->page + 1) * $this->limit) ? $this->page + 1 : $this->page;
@@ -100,10 +105,10 @@ class LogActions{
      * @param $path
      * @return array
     */        
-    public function previous($path):array
+    public function previous():array
     {
         try{
-            $file = $this->isFileValid($path);
+            $file = $this->isFileValid();
             $this->page = (($this->page - 1) * $this->limit < $this->limit) ? 0 : $this->page - 1;
 
             $this->offset = $this->page * $this->limit;
@@ -127,10 +132,10 @@ class LogActions{
      * @param $path
      * @return array
     */        
-    public function end($path):array
+    public function end():array
     {
         try{
-            $file = $this->isFileValid($path);
+            $file = $this->isFileValid();
 
             $file->seek(PHP_INT_MAX); 
             $total_lines = $file->key();
@@ -157,13 +162,13 @@ class LogActions{
      * @param $path
      * @return SplFileObject
     */    
-    private function isFileValid($path):SplFileObject
+    private function isFileValid():SplFileObject
     {
-        if(!file_exists($path)){
+        if(!file_exists($this->path)){
             throw new RuntimeException("File Not exist",301);
         }
 
-        $file = new SplFileObject($path);
+        $file = new SplFileObject($this->path);
 
         if (!$file->getSize()){
             throw new RuntimeException("File Empty",302);
