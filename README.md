@@ -38,13 +38,19 @@ networks:
 ```
 ## once docker containers built
 - dont forget to update this line within docker/nginx/conf.d/app.conf 
- #######    root /var/www/site/   ==>   root /var/www/site/public
+  #### root /var/www/site/   ==>   root /var/www/site/public
 - build docker containers
-  #docker-compose up -d --build 
+  ```bash
+  docker-compose up -d --build 
+  ```
 - you can enter app conatiner using 
-    #docker exec -it app-php sh
+  ```bash
+  docker exec -it app-php sh
+  ```
 - run tests
-    #php bin/phpunit tests
+  ```bash
+  php bin/phpunit tests
+  ```
 
 ## Now you can access the web app 
 - [queen app](http://localhost:8000/)
