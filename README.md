@@ -46,7 +46,7 @@ networks:
 - php
   - Dockerfile
 ```
-### nginx docker file contents
+### nginx app.conf contents
 ```
 server {
     listen 80;
