@@ -77,7 +77,7 @@ server {
     }
 }
 ```
-### php docker filer contents
+### php Dockerfile contents
 
 ``` text
 FROM php:fpm-alpine
