@@ -1,11 +1,11 @@
 # queen
 
-# Folder structue
+## Folder structue
 - docker
 - site
 - docker-compose.yml
 
-# use below block into docker-compose.yml file
+## use below block into docker-compose.yml file
 version: "2"
 ### services:
   ### #PHP service
@@ -35,7 +35,7 @@ version: "2"
   ###  app-network:
     driver: bridge
 
-# once docker containers built
+## once docker containers built
 - dont forget to update this line within docker/nginx/conf.d/app.conf 
  #######    root /var/www/site/   ==>   root /var/www/site/public
 - build docker containers
@@ -45,5 +45,5 @@ version: "2"
 - run tests
     #php bin/phpunit tests
 
-# Now you can access the web app 
+## Now you can access the web app 
 - http://localhost:8000/
