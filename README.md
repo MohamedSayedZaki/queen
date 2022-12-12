@@ -1,9 +1,9 @@
 # queen
-
+#### is a logging system that user can log files from small files to large ones and user can login using [username/password] admin/admin
 ## Folder structue
-- docker
-- site
-- docker-compose.yml
+### - docker
+### - site
+### - docker-compose.yml
 
 ## use below block into docker-compose.yml file
 ```yaml
