@@ -7,9 +7,9 @@
 
 # use below block into docker-compose.yml file
 version: "2"
-services:
-  # PHP service
-  app:
+### services:
+  ### #PHP service
+  ### app:
     build: ./docker/php/
     container_name: app-php
     working_dir: /var/www/site
@@ -18,8 +18,8 @@ services:
     networks:
       - app-network
 
-  # Nginx service
-  nginx:
+  ### #Nginx service
+  ### nginx:
     image: nginx:alpine
     container_name: app-nginx
     working_dir: /var/www/site
@@ -30,9 +30,9 @@ services:
       - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
     networks:
       - app-network
-
-networks:
-  app-network:
+  ### #network
+### networks:
+  ###  app-network:
     driver: bridge
 
 # once docker containers built
