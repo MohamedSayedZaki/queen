@@ -6,10 +6,11 @@
 - docker-compose.yml
 
 ## use below block into docker-compose.yml file
+```yaml
 version: "2"
-### services:
-  ### #PHP service
-  ### app:
+services:
+  #PHP service
+  app:
     build: ./docker/php/
     container_name: app-php
     working_dir: /var/www/site
@@ -18,8 +19,8 @@ version: "2"
     networks:
       - app-network
 
-  ### #Nginx service
-  ### nginx:
+  #Nginx service
+  nginx:
     image: nginx:alpine
     container_name: app-nginx
     working_dir: /var/www/site
@@ -30,11 +31,11 @@ version: "2"
       - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
     networks:
       - app-network
-  ### #network
-### networks:
-  ###  app-network:
-    driver: bridge
 
+networks:
+  app-network:
+    driver: bridge
+```
 ## once docker containers built
 - dont forget to update this line within docker/nginx/conf.d/app.conf 
  #######    root /var/www/site/   ==>   root /var/www/site/public
@@ -46,4 +47,4 @@ version: "2"
     #php bin/phpunit tests
 
 ## Now you can access the web app 
-- http://localhost:8000/
+- [queen app](http://localhost:8000/)
