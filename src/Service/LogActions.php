@@ -8,11 +8,10 @@ use Symfony\Component\Process\Exception\RuntimeException;
 
 class LogActions{
 
-    private $log = '';
-    private $page = 1;
-    private $offset = 0;
-    private $limit = 10;
-    private $path ='';
+    private int $page = 1;
+    private int $offset = 0;
+    private int $limit = 10;
+    private string $path ='';
 
     public function setPage($page){
         $this->page = $page;

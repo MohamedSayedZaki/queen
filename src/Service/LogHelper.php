@@ -7,7 +7,7 @@ class LogHelper{
         $this->log = $log;
     }
 
-    public function getAction($path, $type = '', $page = 1)
+    public function getAction(string $path, string $type = '', int $page = 1): array
     {
         $this->log->setPage($page);
         $this->log->setPath($path);
